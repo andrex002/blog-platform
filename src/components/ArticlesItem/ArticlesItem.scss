@@ -1,0 +1,84 @@
+.article {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 15px 20px 15px 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  &__left {
+    max-width: 685px;
+  }
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 4px;
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  &__title-link {
+    color: #1890FF
+  }
+
+  &__likes {
+    line-height: 28px;
+    padding-left: 21px;
+    background-image: url('../../images/icon-likes.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+
+  &__tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  &__tag {
+    padding: 2px 5px;
+    line-height: 1.2;
+    color: rgba(0, 0, 0, 0.50);
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+  }
+
+  &__text {
+    margin: 0 0 10px;
+  }
+}
+
+.author {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+
+  &__info {
+    text-align: right;
+  }
+
+  &__name {
+    font-size: 18px;
+    line-height: 1.55;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  &__post-date {
+    display: block;
+    margin-top: -4px;
+    color: rgba(0, 0, 0, 0.50);
+  }
+
+  &__avatar {
+    flex: 0 0 auto
+  }
+}

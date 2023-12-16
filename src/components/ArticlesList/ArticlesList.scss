@@ -1,0 +1,30 @@
+.articles {
+  margin-bottom: 20px;
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 26px 0;
+  }
+
+  &__item {
+    margin-bottom: 26px;
+  }
+
+  &__pagination {
+    text-align: center;
+
+    & .ant-pagination-item-active {
+      background-color: #1890FF;
+
+      & a {
+        color: #fff;
+      }
+    }
+  }
+
+  &__spin {
+    display: flex;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,48 @@
+.header {
+  background-color: #fff;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 9px 22px;
+  }
+
+  &__logo {
+    padding: 14px 14px 14px 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: inherit;
+  }
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  line-height: 1.55;
+
+  &__sign-in {
+    padding: 3px 26px 4px;
+    font-size: 18px;
+    color: inherit;
+  }
+
+  &__sign-up {
+    padding: 7px 17px 7px;
+    font-size: 18px;
+    line-height: 1.9;
+    color: #52c41a;
+    border: 1px solid #52C41A;
+    border-radius: 5px;
+  }
+}
+
+.main {
+  &__container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+}

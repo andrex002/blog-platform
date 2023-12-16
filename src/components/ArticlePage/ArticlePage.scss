@@ -1,0 +1,39 @@
+.article-full .article__text {
+    color: rgba(0, 0, 0, 0.50)
+}
+
+.article-full .article {
+    box-shadow: none;
+}
+
+.article-full {
+    margin-top: 25px;
+    background-color: #fff;
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+    &__content {
+        margin-top: 5px;
+        padding: 0 40px 100px 20px;
+
+        & h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        & h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 28px;
+        }
+
+        & p {
+            margin: 0 0 20px;
+            font-size: 14px;
+            line-height: 22px;
+        }
+    }
+
+}
