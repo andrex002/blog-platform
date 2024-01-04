@@ -1,0 +1,114 @@
+.user-form {
+  max-width: 385px;
+  margin: 60px auto;
+  padding: 48px 32px;
+  font-family: Roboto, sans-serif;
+  color: #262626;
+  border-radius: 6px;
+  border: 1px solid#D9D9D9;
+  background: #FFF;
+  box-shadow: 0px 0.609px 2.933px 0px rgba(0, 0, 0, 0.02), 0px 1.463px 7.049px 0px rgba(0, 0, 0, 0.03), 0px 2.755px 13.273px 0px rgba(0, 0, 0, 0.04), 0px 4.914px 23.676px 0px rgba(0, 0, 0, 0.04), 0px 9.191px 44.284px 0px rgba(0, 0, 0, 0.05), 0px 22px 106px 0px rgba(0, 0, 0, 0.07);
+
+  &__title {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  &__input-name {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 14px;
+    line-height: 1.57;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 7px 11px;
+    border-radius: 4px;
+    border: 1px solid #D9D9D9;
+    background: #FFF;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+
+    &--error,
+    &--error:focus {
+      border-color: red;
+      outline: 1px solid red;
+    }
+  }
+
+  &__line {
+    height: 1px;
+    margin: 21px 0 8px;
+    background: #E8E8E8;
+  }
+
+  &__input-wrapper {
+    margin-bottom: 21px;
+  }
+
+  &__concent {
+    display: flex;
+  }
+
+  &__concent-checkbox {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    margin-top: 3px;
+    flex-shrink: 0;
+    background-color: #1890FF;
+  }
+
+  &__concent-text {
+    font-size: 14px;
+    line-height: 1.57;
+  }
+
+  &__btn {
+    width: 100%;
+    margin-top: 9px;
+    margin-bottom: 8px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #fff;
+    border-radius: 4px;
+    background: #1890FF;
+    border: 0;
+    cursor: pointer;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__info {
+    color: #8C8C8C;
+    line-height: 1.67;
+    text-align: center;
+  }
+
+  &__link {
+    color: #1890FF;
+  }
+
+  &__error-message {
+    margin: 2px 0 0;
+    color: #F5222D;
+    font-size: 14px;
+    line-height: 1.57;
+  }
+}

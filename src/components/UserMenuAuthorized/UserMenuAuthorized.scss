@@ -1,0 +1,48 @@
+.user-section {
+  &__create-article {
+    display: block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #52C41A;
+    font-size: 14px;
+    line-height: 1.57;
+    color: #52C41A;
+    transition: 0.3s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &__profile-link {
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &__user-name {
+    margin-right: 13px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  &__logout-btn {
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.75);
+    background-color: transparent;
+    font-size: 18px;
+    line-height: 1.55;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}

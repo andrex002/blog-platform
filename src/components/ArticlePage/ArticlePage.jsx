@@ -13,7 +13,7 @@ const ArticlePage = ({ slug }) => {
   useEffect(() => {
     dispatch(getPost(slug));
   }, []);
-  const { currentPost, loading, error } = useSelector((state) => state.blog);
+  const { currentPost, user, loading, error } = useSelector((state) => state.blog);
 
   if (!loading && currentPost !== null) {
     return (
@@ -35,12 +35,24 @@ const ArticlePage = ({ slug }) => {
               </div>
               <p className="article__text">{currentPost.description}</p>
             </div>
-            <div className="article__right author">
-              <div className="author__info">
-                <div className="author__name">{currentPost.author.username}</div>
-                <div className="author__post-date">{format(new Date(currentPost.updatedAt), 'MMMM d, yyyy')}</div>
+            <div className="article__right ">
+              <div className="author">
+                <div className="author__info">
+                  <div className="author__name">{currentPost.author.username}</div>
+                  <div className="author__post-date">{format(new Date(currentPost.updatedAt), 'MMMM d, yyyy')}</div>
+                </div>
+                <img className="author__avatar" src={currentPost.author.image} width={46} height={46} />
               </div>
-              <img className="author__avatar" src={currentPost.author.image} width={46} height={46} />
+              {user.username === currentPost.author.username && (
+                <div className="article__edit-btns">
+                  <button className="article__edit-btn article__edit-btn--del" type="button">
+                    Delete
+                  </button>
+                  <button className="article__edit-btn article__edit-btn--edit" type="button">
+                    Edit
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           <div className="article-full__content">

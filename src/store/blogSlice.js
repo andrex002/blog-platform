@@ -10,6 +10,8 @@ const initialState = {
   currentPage: 1,
   totalPages: 1,
   currentPost: null,
+  user: {},
+  authorized: false,
   loading: true,
   error: '',
 };
@@ -22,7 +24,6 @@ const blogSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getPosts.fulfilled, (state, action) => {
-      console.log(action);
       state.posts = action.payload.articles;
       state.loading = false;
       state.totalPosts = action.payload.articlesCount;
@@ -30,7 +31,6 @@ const blogSlice = createSlice({
       state.currentPage = action.payload.page;
     });
     builder.addCase(getPosts.rejected, (state, action) => {
-      console.log(action);
       return {
         ...state,
         loading: false,
@@ -45,7 +45,70 @@ const blogSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(getPost.rejected, (state, action) => {
-      console.log(action);
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(signUp.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(signUp.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+      state.authorized = true;
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(signUp.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(signIn.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(signIn.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+      state.authorized = true;
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(signIn.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(editProfile.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(editProfile.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+      state.authorized = true;
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(editProfile.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(getProfile.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.user = action.payload.user;
+        state.authorized = true;
+      }
+    });
+    builder.addCase(getProfile.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(logOut.fulfilled, (state) => {
+      state.authorized = false;
+      state.user = {};
+    });
+    builder.addCase(createPost.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(createPost.fulfilled, (state) => {
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(createPost.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });
@@ -69,6 +132,73 @@ export const getPost = createAsyncThunk('posts/getPost', async (slug, { rejectWi
     const result = await Api.getArticle(slug);
     if (result.errors) {
       throw new Error('Пост не загрузился');
+    }
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const signUp = createAsyncThunk('user/signUp', async (userData, { rejectWithValue }) => {
+  try {
+    const result = await Api.registration(userData);
+    if (result.errors) {
+      throw new Error('Ошибка! Регистрация не прошла');
+    }
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const signIn = createAsyncThunk('user/signIn', async (userData, { rejectWithValue }) => {
+  try {
+    const result = await Api.authorization(userData);
+    if (result.errors) {
+      throw new Error('Не верный логин или пароль');
+    }
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const editProfile = createAsyncThunk('user/editProfile', async (userData, { rejectWithValue }) => {
+  try {
+    const result = await Api.editProfile(userData);
+    if (result.errors) {
+      throw new Error('Ошибка! Не получилось отредактировать профиль');
+    }
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const getProfile = createAsyncThunk('user/getProfile', async (_, { rejectWithValue }) => {
+  if (!Api.getToken()) return;
+
+  try {
+    const result = await Api.getUserProfile();
+    if (result.errors) {
+      throw new Error('Ошибка! Не удалось получить данные о профиле');
+    }
+
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const logOut = createAsyncThunk('user/logOut', async () => {
+  return Api.logOutUser();
+});
+
+export const createPost = createAsyncThunk('posts/create', async (postData, { rejectWithValue }) => {
+  try {
+    const result = await Api.createPost(postData);
+    if (result.errors) {
+      throw new Error('Ошибка! Не удалось добавить статью');
     }
     return result;
   } catch (err) {

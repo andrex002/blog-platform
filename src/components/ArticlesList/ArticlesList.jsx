@@ -1,13 +1,22 @@
 import { Pagination, Spin } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 import { Notification } from '../Notification/Notification';
-import { getPosts } from '../../store/blogSlice';
+import { getPosts, getProfile } from '../../store/blogSlice';
 import { ArticleItem } from '../ArticlesItem/ArticlesItem';
 import './ArticlesList.scss';
 
 function ArticlesList() {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPosts());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
+
   const { posts, loading, currentPage, totalPosts, error } = useSelector((state) => state.blog);
   const onLoadPageArticles = (page) => {
     dispatch(getPosts(page));

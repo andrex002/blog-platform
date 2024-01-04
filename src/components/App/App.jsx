@@ -1,19 +1,22 @@
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { useEffect } from 'react';
 
-import { getPosts } from '../../store/blogSlice';
+import { logOut } from '../../store/blogSlice';
+import { UserMenuAuthorized } from '../UserMenuAuthorized/UserMenuAuthorized';
+import { UserMenuUnauthorized } from '../UserMenuUnauthorized/UserMenuUnauthorized';
 import ArticlesList from '../ArticlesList/ArticlesList';
 import ArticlePage from '../ArticlePage/ArticlePage';
+import { SignUpPage } from '../SignUpPage/SignUpPage';
+import { SignInPage } from '../SignInPage/SignInPage';
+import { PrivateRoute } from '../PrivateRoute/PrivateRoute';
+import { EditProfile } from '../EditProfile/EditProfile';
+import { NewArticle } from '../NewArticle/NewArticle';
+import { EditArticle } from '../EditArticle/EditArticle';
 
 import './App.scss';
 
 export function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, []);
+  const { authorized, user } = useSelector((state) => state.blog);
 
   return (
     <Router>
@@ -24,12 +27,7 @@ export function App() {
               Realworld Blog
             </Link>
             <div className="header__user-section user-section">
-              <a className="user-section__sign-in" href="#">
-                Sign In
-              </a>
-              <a className="user-section__sign-up" href="#">
-                Sign Up
-              </a>
+              {authorized ? <UserMenuAuthorized user={user} logout={logOut} /> : <UserMenuUnauthorized />}
             </div>
           </div>
         </header>
@@ -40,6 +38,16 @@ export function App() {
               path="/articles/:slug"
               render={({ match }) => {
                 return <ArticlePage slug={match.params.slug} />;
+              }}
+            />
+            <Route path="/sign-up" component={SignUpPage} />
+            <Route path="/sign-in" component={SignInPage} />
+            <Route path="/profile" render={() => PrivateRoute(EditProfile, authorized)} />
+            <Route path="/new-article" render={(router) => <NewArticle {...router} />} />
+            <Route
+              path="/articles/:slug/edit"
+              render={({ match }) => {
+                return <EditArticle slug={match.params.slug} />;
               }}
             />
           </div>
