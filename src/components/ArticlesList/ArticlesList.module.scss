@@ -1,21 +1,21 @@
 .articles {
   margin-bottom: 20px;
 
-  &__list {
+  &List {
     list-style: none;
     padding: 0;
     margin: 26px 0;
   }
 
-  &__item {
+  &Item {
     margin-bottom: 26px;
   }
 
-  &__pagination {
+  &Pagination {
     text-align: center;
 
     & .ant-pagination-item-active {
-      background-color: #1890FF;
+      background-color: #1890ff;
 
       & a {
         color: #fff;
@@ -23,7 +23,7 @@
     }
   }
 
-  &__spin {
+  &Spin {
     display: flex;
     justify-content: center;
   }

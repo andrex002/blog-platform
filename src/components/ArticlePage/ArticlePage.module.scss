@@ -1,0 +1,147 @@
+.articleFull .articleText {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.articleFull .article {
+  box-shadow: none;
+}
+
+.articleFull {
+  margin-top: 25px;
+  background-color: #fff;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  &Content {
+    margin-top: 5px;
+    padding: 0 40px 100px 20px;
+
+    & h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    & h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 28px;
+    }
+
+    & p {
+      margin: 0 0 20px;
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+}
+
+.article {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 15px 20px 15px 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  &Left {
+    max-width: 685px;
+  }
+
+  &Top {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 4px;
+  }
+
+  &Title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  &Tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  &Tag {
+    padding: 2px 5px;
+    line-height: 1.2;
+    color: rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+
+  &Text {
+    margin: 0 0 10px;
+  }
+}
+
+.author {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+
+  &Info {
+    text-align: right;
+  }
+
+  &Name {
+    font-size: 18px;
+    line-height: 1.55;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  &PostDate {
+    display: block;
+    margin-top: -4px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  &Avatar {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+.editBtns {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 12px;
+}
+
+.editBtn {
+  padding: 5px 17px;
+  font-size: 14px;
+  line-height: 1.57;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+}
+
+.editBtnDel {
+  border-color: #f5222d;
+  color: #f5222d;
+}
+
+.editBtnEdit {
+  border-color: #52c41a;
+  color: #52c41a;
+}
+
+.articlesSpin {
+  display: flex;
+  justify-content: center;
+}

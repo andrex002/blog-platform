@@ -1,10 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { Spin } from 'antd';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import { editProfile } from '../../store/blogSlice';
+import css from '../SignUpPage/SignUpPage.module.scss';
 
-export function EditProfile() {
+export function EditProfile({ history }) {
   const { user, error, loading } = useSelector((state) => state.blog);
 
   const {
@@ -16,6 +19,7 @@ export function EditProfile() {
     defaultValues: {
       username: user.username,
       email: user.email,
+      image: user.image,
     },
   });
 
@@ -24,29 +28,30 @@ export function EditProfile() {
   const onSubmit = (data) => {
     const dataForm = { user: data };
     dispatch(editProfile(dataForm));
+    history.push('/');
   };
 
   return (
-    <section className="user-form">
-      <h2 className="user-form__title">Edit Profile</h2>
-      {loading && <Spin size="large" className="articles__spin" />}
-      <form className="user-form__form" onSubmit={handleSubmit(onSubmit)}>
-        <label className="user-form__label">
-          <span className="user-form__input-name">Username</span>
+    <section className={css.userForm}>
+      <h2 className={css.userFormTitle}>Edit Profile</h2>
+      {loading && <Spin size="large" className={css.articlesSpin} />}
+      <form className={css.userFormForm} onSubmit={handleSubmit(onSubmit)}>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Username</span>
           <input
-            className={`user-form__input ${errors.username ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.username && css.userFormInputError])}
             placeholder="username"
             {...register('username', {
               required: 'Поле email не может быть пустым',
             })}
           />
-          {errors?.username && <p className="user-form__error-message">{errors.username?.message}</p>}
+          {errors?.username && <p className={css.userFormErrorMessage}>{errors.username?.message}</p>}
         </label>
 
-        <label className="user-form__label">
-          <span className="user-form__input-name">Email address</span>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Email address</span>
           <input
-            className={`user-form__input ${errors.email ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.email && css.userFormInputError])}
             placeholder="Email address"
             {...register('email', {
               required: 'Поле email не должно быть пустым',
@@ -57,12 +62,12 @@ export function EditProfile() {
               },
             })}
           />
-          {errors?.email && <p className="user-form__error-message">{errors.email?.message}</p>}
+          {errors?.email && <p className={css.userFormErrorMessage}>{errors.email?.message}</p>}
         </label>
-        <label className="user-form__label">
-          <span className="user-form__input-name">New password</span>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>New password</span>
           <input
-            className={`user-form__input ${errors.password ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.password && css.userFormInputError])}
             type="password"
             placeholder="New password"
             {...register('password', {
@@ -71,12 +76,12 @@ export function EditProfile() {
               maxLength: { value: 40, message: 'Password должно содержать не более 40 символов' },
             })}
           />
-          {errors?.password && <p className="user-form__error-message">{errors.password?.message}</p>}
+          {errors?.password && <p className={css.userFormErrorMessage}>{errors.password?.message}</p>}
         </label>
-        <label className="user-form__label">
-          <span className="user-form__input-name">Avatar image (url)</span>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Avatar image (url)</span>
           <input
-            className={`user-form__input ${errors.avatar ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.image && css.userFormInputError])}
             placeholder="Avatar image"
             {...register('image', {
               pattern: {
@@ -85,11 +90,15 @@ export function EditProfile() {
               },
             })}
           />
-          {errors?.image && <p className="user-form__error-message">{errors.image?.message}</p>}
+          {errors?.image && <p className={css.userFormErrorMessage}>{errors.image?.message}</p>}
         </label>
-        <button className="user-form__btn">Save</button>
+        <button className={css.userFormBtn}>Save</button>
       </form>
-      {error && <div className="user-form__error-message">{error}</div>}
+      {error && <div className={css.userFormErrorMessage}>{error}</div>}
     </section>
   );
 }
+
+EditProfile.propTypes = {
+  history: PropTypes.object,
+};

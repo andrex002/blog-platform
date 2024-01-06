@@ -1,9 +1,11 @@
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import classNames from 'classnames';
 
-import './SignUpPage.scss';
 import { signUp } from '../../store/blogSlice';
+
+import css from './SignUpPage.module.scss';
 
 export function SignUpPage() {
   const {
@@ -26,13 +28,13 @@ export function SignUpPage() {
   };
 
   return (
-    <section className="user-form">
-      <h2 className="user-form__title">Create new account</h2>
-      <form className="user-form__form" onSubmit={handleSubmit(onSubmit)}>
-        <label className="user-form__label">
-          <span className="user-form__input-name">Username</span>
+    <section className={css.userForm}>
+      <h2 className={css.userFormTitle}>Create new account</h2>
+      <form className={css.userFormForm} onSubmit={handleSubmit(onSubmit)}>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Username</span>
           <input
-            className={`user-form__input ${errors.username ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.username && css.userFormInputError])}
             placeholder="Username"
             {...register('username', {
               required: 'Поле username обязательно к заполнению',
@@ -40,12 +42,12 @@ export function SignUpPage() {
               maxLength: { value: 20, message: 'Имя пользователя должно содержать не более 20 символов' },
             })}
           />
-          {errors?.username && <p className="user-form__error-message">{errors.username?.message}</p>}
+          {errors?.username && <p className={css.userFormErrorMessage}>{errors.username?.message}</p>}
         </label>
-        <label className="user-form__label">
-          <span className="user-form__input-name">Email address</span>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Email address</span>
           <input
-            className={`user-form__input ${errors.email ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.email && css.userFormInputError])}
             placeholder="Email address"
             {...register('email', {
               required: 'Поле email обязательно к заполнению',
@@ -56,12 +58,12 @@ export function SignUpPage() {
               },
             })}
           />
-          {errors?.email && <p className="user-form__error-message">{errors.email?.message}</p>}
+          {errors?.email && <p className={css.userFormErrorMessage}>{errors.email?.message}</p>}
         </label>
-        <label className="user-form__label">
-          <span className="user-form__input-name">Password</span>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Password</span>
           <input
-            className={`user-form__input ${errors.password ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.password && css.userFormInputError])}
             type="password"
             placeholder="Password"
             {...register('password', {
@@ -70,12 +72,12 @@ export function SignUpPage() {
               maxLength: { value: 40, message: 'Password должно содержать не более 40 символов' },
             })}
           />
-          {errors?.password && <p className="user-form__error-message">{errors.password?.message}</p>}
+          {errors?.password && <p className={css.userFormErrorMessage}>{errors.password?.message}</p>}
         </label>
-        <label className="user-form__label">
-          <span className="user-form__input-name">Repeat Password</span>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Repeat Password</span>
           <input
-            className={`user-form__input ${errors.repeatPassword ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.repeatPassword && css.userFormInputError])}
             name="repeatPassword"
             type="password"
             placeholder="Repeat Password"
@@ -86,13 +88,13 @@ export function SignUpPage() {
               },
             })}
           />
-          {errors?.repeatPassword && <p className="user-form__error-message">{errors.repeatPassword?.message}</p>}
+          {errors?.repeatPassword && <p className={css.userFormErrorMessage}>{errors.repeatPassword?.message}</p>}
         </label>
-        <div className="user-form__line" />
-        <div className="user-form__input-wrapper">
-          <label className="user-form__concent">
+        <div className={css.userFormLine} />
+        <div className={css.userFormInputWrapper}>
+          <label className={css.userFormConcent}>
             <input
-              className="user-form__concent-checkbox"
+              className={css.userFormConcentCheckbox}
               type="checkbox"
               {...register('concent', {
                 validate: (value) => {
@@ -100,15 +102,15 @@ export function SignUpPage() {
                 },
               })}
             />
-            <span className="user-form__concent-text">I agree to the processing of my personal information</span>
+            <span className={css.userFormConcentText}>I agree to the processing of my personal information</span>
           </label>
-          {errors?.concent && <p className="user-form__error-message">{errors.concent?.message}</p>}
+          {errors?.concent && <p className={css.userFormErrorMessage}>{errors.concent?.message}</p>}
         </div>
-        <button className="user-form__btn">Create</button>
+        <button className={css.userFormBtn}>Create</button>
       </form>
-      <div className="user-form__info">
+      <div className={css.userFormInfo}>
         Already have an account?{' '}
-        <Link to="/sign-in" className="user-form__link">
+        <Link to="/sign-in" className={css.userFormLink}>
           Sign In
         </Link>
         .

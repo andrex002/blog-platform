@@ -1,7 +1,8 @@
-import { useSelector } from 'react-redux';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import React, { useLayoutEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 
-import { logOut } from '../../store/blogSlice';
+import { logOut, getProfile } from '../../store/blogSlice';
 import { UserMenuAuthorized } from '../UserMenuAuthorized/UserMenuAuthorized';
 import { UserMenuUnauthorized } from '../UserMenuUnauthorized/UserMenuUnauthorized';
 import ArticlesList from '../ArticlesList/ArticlesList';
@@ -13,43 +14,47 @@ import { EditProfile } from '../EditProfile/EditProfile';
 import { NewArticle } from '../NewArticle/NewArticle';
 import { EditArticle } from '../EditArticle/EditArticle';
 
-import './App.scss';
+import css from './App.module.scss';
 
 export function App() {
+  const dispatch = useDispatch();
+  useLayoutEffect(() => {
+    dispatch(getProfile());
+  }, []);
   const { authorized, user } = useSelector((state) => state.blog);
-
   return (
     <Router>
-      <div className="App">
-        <header className="header">
-          <div className="header__container">
-            <Link to="/" className="header__logo">
+      <div className={css.app}>
+        <header className={css.header}>
+          <div className={css.headerContainer}>
+            <Link to="/" className={css.logo}>
               Realworld Blog
             </Link>
-            <div className="header__user-section user-section">
+            <div className={css.userSection}>
               {authorized ? <UserMenuAuthorized user={user} logout={logOut} /> : <UserMenuUnauthorized />}
             </div>
           </div>
         </header>
-        <main className="main">
-          <div className="main__container">
-            <Route exact path={['/', '/articles/']} component={ArticlesList} />
-            <Route
-              path="/articles/:slug"
-              render={({ match }) => {
-                return <ArticlePage slug={match.params.slug} />;
-              }}
-            />
-            <Route path="/sign-up" component={SignUpPage} />
-            <Route path="/sign-in" component={SignInPage} />
-            <Route path="/profile" render={() => PrivateRoute(EditProfile, authorized)} />
-            <Route path="/new-article" render={(router) => <NewArticle {...router} />} />
-            <Route
-              path="/articles/:slug/edit"
-              render={({ match }) => {
-                return <EditArticle slug={match.params.slug} />;
-              }}
-            />
+        <main className={css.main}>
+          <div className={css.mainContainer}>
+            <Switch>
+              <Route exact path={['/', '/articles/']} component={ArticlesList} />
+              <Route
+                exact
+                path="/articles/:slug"
+                render={({ match, history }) => {
+                  return <ArticlePage slug={match.params.slug} history={history} />;
+                }}
+              />
+              <Route path="/sign-up" component={SignUpPage} />
+              <Route path="/sign-in" component={SignInPage} />
+              <PrivateRoute path="/new-article" component={(router) => <NewArticle {...router} />} />
+              <PrivateRoute path="/profile" component={(router) => <EditProfile {...router} />} />
+              <PrivateRoute path="/articles/:slug/edit" component={(router) => <EditArticle {...router} />} />
+              <Route path="*">
+                <h1>404 – Страница не найдена</h1>
+              </Route>
+            </Switch>
           </div>
         </main>
       </div>

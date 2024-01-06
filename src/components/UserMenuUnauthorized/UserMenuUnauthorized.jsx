@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
-import './UserMenuUnauthorized.scss';
 import { Fragment } from 'react';
+
+import css from './UserMenuUnauthorized.module.scss';
 
 export function UserMenuUnauthorized() {
   return (
     <Fragment>
-      <Link to="/sign-in" className="user-section__sign-in" href="#">
+      <Link to="/sign-in" className={css.userSectionSignIn} href="#">
         Sign In
       </Link>
-      <Link to="/sign-up" className="user-section__sign-up" href="#">
+      <Link to="/sign-up" className={css.userSectionSignUp} href="#">
         Sign Up
       </Link>
     </Fragment>

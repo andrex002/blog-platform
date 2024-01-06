@@ -1,0 +1,31 @@
+.header {
+  background-color: #fff;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 9px 22px;
+}
+
+.logo {
+  padding: 14px 14px 14px 0;
+  font-size: 18px;
+  line-height: 1.55;
+  color: inherit;
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  line-height: 1.55;
+}
+
+.mainContainer {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+}

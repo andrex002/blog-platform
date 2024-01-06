@@ -1,12 +1,12 @@
-.user-section {
-  &__create-article {
+.userSection {
+  &CreateArticle {
     display: block;
     padding: 5px 10px;
     border-radius: 5px;
-    border: 1px solid #52C41A;
+    border: 1px solid #52c41a;
     font-size: 14px;
     line-height: 1.57;
-    color: #52C41A;
+    color: #52c41a;
     transition: 0.3s;
 
     &:hover {
@@ -14,7 +14,7 @@
     }
   }
 
-  &__profile-link {
+  &ProfileLink {
     display: flex;
     align-items: center;
     transition: 0.3s;
@@ -24,14 +24,14 @@
     }
   }
 
-  &__user-name {
+  &UserName {
     margin-right: 13px;
     font-size: 18px;
     line-height: 1.55;
     color: rgba(0, 0, 0, 0.85);
   }
 
-  &__logout-btn {
+  &LogoutBtn {
     padding: 8px 18px;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.75);

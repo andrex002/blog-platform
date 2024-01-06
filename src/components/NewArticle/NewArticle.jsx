@@ -1,8 +1,8 @@
 import React from 'react';
-// import { Redirect } from 'react-router-dom';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
 import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { createPost } from '../../store/blogSlice';
 
@@ -25,10 +25,8 @@ export function NewArticle({ history }) {
     const dataForm = { article: data };
     dispatch(createPost(dataForm));
     if (!error) {
-      console.log(5);
       history.push('/');
     }
-    console.log(data);
   };
 
   const { fields, append, remove } = useFieldArray({ name: 'tagList', control: control });
@@ -40,7 +38,13 @@ export function NewArticle({ history }) {
         <label className={css.label}>
           <span className={css.inputName}>Title</span>
           <Controller
-            rules={{ required: 'Поле Title обязательно для заполнения' }}
+            rules={{
+              required: 'Поле Title обязательно для заполнения',
+              maxLength: {
+                value: 150,
+                message: 'Максимальная длинна заголовка 150 символов',
+              },
+            }}
             control={control}
             name="title"
             render={({ field }) => {
@@ -87,11 +91,11 @@ export function NewArticle({ history }) {
               return (
                 <React.Fragment>
                   <textarea
-                    className={classNames([css.input, css.textarea, errors.text && css.error])}
+                    className={classNames([css.input, css.textarea, errors.body && css.error])}
                     placeholder="Text"
                     {...field}
                   />
-                  {errors?.text && <p className={css.errorMessage}>{errors.text?.message}</p>}
+                  {errors?.body && <p className={css.errorMessage}>{errors.body?.message}</p>}
                 </React.Fragment>
               );
             }}
@@ -132,3 +136,7 @@ export function NewArticle({ history }) {
     </section>
   );
 }
+
+NewArticle.propTypes = {
+  history: PropTypes.object,
+};

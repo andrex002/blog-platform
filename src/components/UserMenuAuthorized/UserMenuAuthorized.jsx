@@ -3,22 +3,23 @@ import { Link } from 'react-router-dom';
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import './UserMenuAuthorized.scss';
+import css from './UserMenuAuthorized.module.scss';
 
 export function UserMenuAuthorized({ user, logout }) {
   const dispatch = useDispatch();
   return (
     <React.Fragment>
-      <Link to="/new-article" className="user-section__create-article">
+      <Link to="/new-article" className={css.userSectionCreateArticle}>
         Create article
       </Link>
-      <Link to="/profile" className="user-section__profile-link">
-        <span className="user-section__user-name">{user.username}</span>
-        <Avatar className="user-section__avatar" src={user.image} size={46} icon={<UserOutlined />} />
+      <Link to="/profile" className={css.userSectionProfileLink}>
+        <span className={css.userSectionUserName}>{user.username}</span>
+        <Avatar className={css.userSectionAvatar} src={user.image} size={46} icon={<UserOutlined />} />
       </Link>
       <button
-        className="user-section__logout-btn"
+        className={css.userSectionLogoutBtn}
         onClick={() => {
           dispatch(logout());
         }}
@@ -28,3 +29,11 @@ export function UserMenuAuthorized({ user, logout }) {
     </React.Fragment>
   );
 }
+
+UserMenuAuthorized.propTypes = {
+  user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    image: PropTypes.string,
+  }),
+  logout: PropTypes.func.isRequired,
+};

@@ -1,9 +1,10 @@
 import { Link, Redirect } from 'react-router-dom';
-import '../SignUpPage/SignUpPage.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import classNames from 'classnames';
 
 import { signIn } from '../../store/blogSlice';
+import css from '../SignUpPage/SignUpPage.module.scss';
 
 export function SignInPage() {
   const {
@@ -26,13 +27,13 @@ export function SignInPage() {
   };
 
   return (
-    <section className="user-form">
-      <h2 className="user-form__title">Sign In</h2>
-      <form className="user-form__form" onSubmit={handleSubmit(onSubmit)}>
-        <label className="user-form__label">
-          <span className="user-form__input-name">Email address</span>
+    <section className={css.userForm}>
+      <h2 className={css.userFormTitle}>Sign In</h2>
+      <form className={css.userFormForm} onSubmit={handleSubmit(onSubmit)}>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Email address</span>
           <input
-            className={`user-form__input ${errors.email ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.email && css.userFormInputError])}
             placeholder="Email address"
             {...register('email', {
               required: 'Поле email не может быть пустым',
@@ -43,30 +44,30 @@ export function SignInPage() {
               },
             })}
           />
-          {errors?.email && <p className="user-form__error-message">{errors.email?.message}</p>}
+          {errors?.email && <p className={css.userFormErrorMessage}>{errors.email?.message}</p>}
         </label>
 
-        <label className="user-form__label">
-          <span className="user-form__input-name">Password</span>
+        <label className={css.userFormLabel}>
+          <span className={css.userFormInputName}>Password</span>
           <input
-            className={`user-form__input ${errors.password ? 'user-form__input--error' : ''}`}
+            className={classNames([css.userFormInput, errors.password && css.userFormInputError])}
             type="password"
             placeholder="Password"
             {...register('password', { required: 'Поле password не должно быть пустым' })}
           />
-          {errors?.password && <p className="user-form__error-message">{errors.password?.message}</p>}
+          {errors?.password && <p className={css.userFormErrorMessage}>{errors.password?.message}</p>}
         </label>
-        <div className="user-form__line" />
-        <button className="user-form__btn">Login</button>
+        <div className={css.userFormLine} />
+        <button className={css.userFormBtn}>Login</button>
       </form>
-      <div className="user-form__info">
+      <div className={css.userFormInfo}>
         Don’t have an account?{' '}
-        <Link to="/sign-up" className="user-form__link">
+        <Link to="/sign-up" className={css.userFormLink}>
           Sign Up
         </Link>
         .
       </div>
-      {error && <div className="user-form__error-message">{error}</div>}
+      {error && <div className={css.userFormErrorMessage}>{error}</div>}
     </section>
   );
 }

@@ -29,13 +29,11 @@ const blogSlice = createSlice({
       state.totalPosts = action.payload.articlesCount;
       state.totalPages = action.payload.totalPages;
       state.currentPage = action.payload.page;
+      state.error = '';
     });
     builder.addCase(getPosts.rejected, (state, action) => {
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
+      state.loading = false;
+      state.error = action.payload;
     });
     builder.addCase(getPost.pending, (state) => {
       state.loading = true;
@@ -87,11 +85,15 @@ const blogSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+    builder.addCase(getProfile.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(getProfile.fulfilled, (state, action) => {
       if (action.payload) {
         state.user = action.payload.user;
         state.authorized = true;
       }
+      state.loading = false;
     });
     builder.addCase(getProfile.rejected, (state, action) => {
       state.loading = false;
@@ -104,11 +106,60 @@ const blogSlice = createSlice({
     builder.addCase(createPost.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(createPost.fulfilled, (state) => {
+    builder.addCase(createPost.fulfilled, (state, action) => {
+      state.currentPage = 1;
+      state.currentPost = action.payload.article;
       state.loading = false;
       state.error = '';
     });
     builder.addCase(createPost.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(editPost.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(editPost.fulfilled, (state, action) => {
+      state.currentPost = action.payload.article;
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(editPost.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(deletePost.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(deletePost.fulfilled, (state) => {
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(deletePost.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(favoritePost.fulfilled, (state, action) => {
+      state.posts = state.posts.map((post) => {
+        return post.slug === action.payload.article.slug ? action.payload.article : post;
+      });
+      state.currentPost = action.payload.article;
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(favoritePost.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+    builder.addCase(unfavoritePost.fulfilled, (state, action) => {
+      state.posts = state.posts.map((post) => {
+        return post.slug === action.payload.article.slug ? action.payload.article : post;
+      });
+      state.currentPost = action.payload.article;
+      state.loading = false;
+      state.error = '';
+    });
+    builder.addCase(unfavoritePost.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });
@@ -199,6 +250,54 @@ export const createPost = createAsyncThunk('posts/create', async (postData, { re
     const result = await Api.createPost(postData);
     if (result.errors) {
       throw new Error('Ошибка! Не удалось добавить статью');
+    }
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const editPost = createAsyncThunk('posts/edit', async (postData, { rejectWithValue }) => {
+  try {
+    const result = await Api.editPost(postData);
+    if (result.errors) {
+      throw new Error('Ошибка! Не удалось отредактировать статью');
+    }
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const deletePost = createAsyncThunk('posts/delete', async (slug, { rejectWithValue }) => {
+  try {
+    const result = await Api.deletePost(slug);
+    if (result.errors) {
+      throw new Error('Ошибка! Не удалось удалить статью');
+    }
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const favoritePost = createAsyncThunk('posts/favoritePost', async (slug, { rejectWithValue }) => {
+  try {
+    const result = await Api.favoritePost(slug);
+    if (result.errors) {
+      throw new Error('Ошибка! Лайк не поставлен');
+    }
+    return result;
+  } catch (err) {
+    return rejectWithValue(err.message);
+  }
+});
+
+export const unfavoritePost = createAsyncThunk('posts/unfavoritePost', async (slug, { rejectWithValue }) => {
+  try {
+    const result = await Api.unfavoritePost(slug);
+    if (result.errors) {
+      throw new Error('Ошибка! Лайк не убран');
     }
     return result;
   } catch (err) {

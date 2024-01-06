@@ -35,11 +35,17 @@ export default class ApiBlog {
     }
 
     const result = await fetch(fetchUrl, options);
-    const response = await result.json();
+    let response;
+    if (result.status === 204) {
+      response = {};
+    } else {
+      response = await result.json();
+    }
 
     if (response?.user?.token) {
       this._setToken(response?.user?.token);
     }
+
     return response;
   };
 
@@ -98,6 +104,30 @@ export default class ApiBlog {
   createPost = async (postData) => {
     const url = 'api/articles';
     return this._getResource(url, null, 'POST', postData).then((data) => {
+      return data;
+    });
+  };
+  editPost = async ({ article, slug }) => {
+    const url = `api/articles/${slug}`;
+    return this._getResource(url, null, 'PUT', article).then((data) => {
+      return data;
+    });
+  };
+  deletePost = async (slug) => {
+    const url = `api/articles/${slug}`;
+    return this._getResource(url, null, 'DELETE').then((data) => {
+      return data;
+    });
+  };
+  favoritePost = async (slug) => {
+    const url = `api/articles/${slug}/favorite`;
+    return this._getResource(url, null, 'POST').then((data) => {
+      return data;
+    });
+  };
+  unfavoritePost = async (slug) => {
+    const url = `api/articles/${slug}/favorite`;
+    return this._getResource(url, null, 'DELETE').then((data) => {
       return data;
     });
   };

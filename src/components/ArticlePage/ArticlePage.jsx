@@ -1,61 +1,87 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
-import { Spin } from 'antd';
+import { Spin, Popconfirm } from 'antd';
 import Markdown from 'react-markdown';
+import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import { Notification } from '../Notification/Notification';
-import { getPost } from '../../store/blogSlice';
-import './ArticlePage.scss';
+import { getPost, deletePost } from '../../store/blogSlice';
+import { Likes } from '../../components/Likes/Likes';
 
-const ArticlePage = ({ slug }) => {
+import css from './ArticlePage.module.scss';
+
+const ArticlePage = ({ slug, history }) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getPost(slug));
   }, []);
   const { currentPost, user, loading, error } = useSelector((state) => state.blog);
 
+  const onDeleteArticle = () => {
+    dispatch(deletePost(slug));
+    history.push('/');
+  };
   if (!loading && currentPost !== null) {
     return (
-      <section className="article-full">
-        <div className="article-full__body">
-          <div className="article">
-            <div className="article__left">
-              <div className="article__top">
-                <h1 className="article__title">{currentPost.title}</h1>
-                <div className="article__likes">{currentPost.favoritesCount}</div>
+      <section className={css.articleFull}>
+        <div className={css.body}>
+          <div className={css.article}>
+            <div className={css.articleLeft}>
+              <div className={css.articleTop}>
+                <h1 className={css.articleTitle}>{currentPost.title}</h1>
+                <Likes
+                  favoritesCount={currentPost.favoritesCount}
+                  favorited={currentPost.favorited}
+                  slug={currentPost.slug}
+                />
               </div>
-              <div className="article__tags">
+              <div className={css.articleTags}>
                 {currentPost.tagList &&
                   currentPost.tagList.map((tag) => (
-                    <div className="article__tag" key={tag}>
+                    <div className={css.articleTag} key={tag}>
                       {tag}
                     </div>
                   ))}
               </div>
-              <p className="article__text">{currentPost.description}</p>
+              <p className={css.articleText}>{currentPost.description}</p>
             </div>
-            <div className="article__right ">
-              <div className="author">
-                <div className="author__info">
-                  <div className="author__name">{currentPost.author.username}</div>
-                  <div className="author__post-date">{format(new Date(currentPost.updatedAt), 'MMMM d, yyyy')}</div>
+            <div className={css.articleRight}>
+              <div className={css.author}>
+                <div className={css.authorInfo}>
+                  <div className={css.authorName}>{currentPost.author.username}</div>
+                  <div className={css.authorPostDate}>{format(new Date(currentPost.updatedAt), 'MMMM d, yyyy')}</div>
                 </div>
-                <img className="author__avatar" src={currentPost.author.image} width={46} height={46} />
+                <img className={css.authorAvatar} src={currentPost.author.image} width={46} height={46} />
               </div>
               {user.username === currentPost.author.username && (
-                <div className="article__edit-btns">
-                  <button className="article__edit-btn article__edit-btn--del" type="button">
-                    Delete
-                  </button>
-                  <button className="article__edit-btn article__edit-btn--edit" type="button">
+                <div className={css.editBtns}>
+                  <Popconfirm
+                    title="Are you sure to delete this article?"
+                    okText="Yes"
+                    cancelText="No"
+                    placement="rightTop"
+                    onConfirm={onDeleteArticle}
+                  >
+                    <button className={classNames([css.editBtn, css.editBtnDel])} type="button">
+                      Delete
+                    </button>
+                  </Popconfirm>
+                  <Link
+                    to={`/articles/${slug}/edit`}
+                    className={classNames([css.editBtn, css.editBtnEdit])}
+                    type="button"
+                  >
                     Edit
-                  </button>
+                  </Link>
                 </div>
               )}
             </div>
           </div>
-          <div className="article-full__content">
+          <div className={css.articleFullContent}>
             <Markdown>{currentPost.body}</Markdown>
           </div>
         </div>
@@ -64,7 +90,12 @@ const ArticlePage = ({ slug }) => {
   } else if (error) {
     return <Notification>{error}</Notification>;
   }
-  return <Spin size="large" className="articles__spin" />;
+  return <Spin size="large" className={css.articlesSpin} />;
+};
+
+ArticlePage.propTypes = {
+  slug: PropTypes.string,
+  history: PropTypes.object,
 };
 
 export default ArticlePage;

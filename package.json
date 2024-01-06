@@ -61,6 +61,7 @@
     "lint-staged": "^15.0.2",
     "nanoid": "^5.0.4",
     "prettier": "^3.0.3",
+    "prop-types": "^15.8.1",
     "sass": "^1.69.5"
   },
   "husky": {
